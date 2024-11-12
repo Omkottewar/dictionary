@@ -1,6 +1,4 @@
 import { useRef, useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 import data from './assets/data';
 
@@ -10,21 +8,33 @@ function App() {
 
   const handleChange = (e) => {
     e.preventDefault();
-    const text = word.current.value;
-    const foundDefinition = data.find((item) =>
-      text.toLowerCase() === item.word.toLowerCase()
-    );
-    console.log(foundDefinition)
-    setDefinition(foundDefinition ? foundDefinition.meaning : "Word not found in the dictionary");
+    const text = word.current.value.trim();
+    if (text) {
+      const foundDefinition = data.find(
+        (item) => text.toLowerCase() === item.word.toLowerCase()
+      );
+      setDefinition(foundDefinition ? foundDefinition.meaning : "Word not found in the dictionary.");
+    } else {
+      setDefinition("Word not found in the dictionary.");
+    }
   };
 
   return (
-    <div className="">
+    <div className="app">
+      <h1>Dictionary App</h1>
       <form onSubmit={handleChange}>
-        <input type="text" ref={word} />
+        <input
+          type="text"
+          ref={word}
+          placeholder="Enter a word"
+          defaultValue=""
+        />
         <button type="submit">Search</button>
       </form>
-      <p>Definition: <span>{definition}</span></p>
+      <div>
+        <strong>Definition:</strong>
+        <p>{definition}</p>
+      </div>
     </div>
   );
 }
